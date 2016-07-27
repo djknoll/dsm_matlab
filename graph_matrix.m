@@ -17,36 +17,16 @@ function []=graph_matrix(matrix, x_title, y_title, graph_title, x_tcklabel, y_tc
 %
 %			Outputs:
 %
-%
-%
-%
-
-
 % **************************************************************************
-% **************************************************************************
-% **************************************************************************
-% **************************************************************************
-% **************************************************************************
-%																									*
-%  File:	graph_matrix.m																					*
-%																									*
-%	Created by: Ronnie E. Thebeau															*
-%					System Design and Management Program								*
-%					Massacusetts Institute of Technology								*
-%																									*
-%	Date: December 2000																		*
-%																									*
-%	Function to graph the DSM matrix or cluster matrix.  If the DSM matrix				*
+%	Created by: Ronnie E. Thebeau											*
+%					System Design and Management Program					*
+%					Massacusetts Institute of Technology					*
+%																			*
+%	Date: December 2000														*
+%																			*
+%	Function to graph the DSM matrix or cluster matrix.  If the DSM matrix	*
 %	is to plotted in clustered form, the cluster matrix must also be provided.			*
-%																									*
-%																									*
 % **************************************************************************
-% **************************************************************************
-% **************************************************************************
-% **************************************************************************
-
-
-
 
 
 % Are we plotting cluster boxes?
@@ -63,10 +43,10 @@ max_row = max(row_input);
 max_col = max(column_out);
 ax = [0 max_col+1 0 max_row+1];
 max_value = max(m_value);
-data_scale = ceil(500/max_value)/20;
+data_scale = ceil(400/max_value)/2;
 
-x_tcklabel_g{1,1} = '0';
-y_tcklabel_g{1,1} = '0';
+x_tcklabel_g{1,1} = '';
+y_tcklabel_g{1,1} = '';
 
 for i = 1:size(x_tcklabel,1)
    x_tcklabel_g{i+1,1} = x_tcklabel{i,1};
@@ -78,10 +58,14 @@ end
 
 figure;
 clf;
-scatter(column_out, row_input, m_value*data_scale, m_value,'filled','d');
+scatter(column_out, row_input, m_value*data_scale, m_value,'filled','s');
 axis(ax);
 cur_ax = gca;
 axes_scale = get(cur_ax,'Position');
+colormap(cur_ax, 'cool');
+colorbar('peer',cur_ax,'Ticks',(1:max_value),...
+    'LineWidth',1,...
+    'FontSize',8);
 set(cur_ax,'Position',[axes_scale(1) axes_scale(2) axes_scale(3) axes_scale(4)*0.9]);
 set(cur_ax,'XTick',(0:1:max_col+1));
 set(cur_ax,'YTick',(0:1:max_row+1));
@@ -90,9 +74,11 @@ set(cur_ax,'XTickLabelMode','manual');
 set(cur_ax,'YTickLabelMode','manual');
 set(cur_ax,'XTickLabel',x_tcklabel_g);
 set(cur_ax,'YTickLabel',y_tcklabel_g);
-set(cur_ax,'FontSize',4);
+set(cur_ax,'FontSize',8);
 set(cur_ax,'Box','On');
-
+set(cur_ax,'XTickLabelRotation', 20);
+set(cur_ax,'YTickLabelRotation', 20);
+set(cur_ax,'DataAspectRatioMode', 'manual')
 
 xlabel(x_title);
 ylabel(y_title);
